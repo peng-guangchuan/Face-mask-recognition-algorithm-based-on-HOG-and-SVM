@@ -7,9 +7,9 @@ function [gradient_magnitude,gradient_angle] = computeGradient(img,model)
 % gradient_angle: 图像各个像素点的梯度方向
     [r,c] = size(img);
     img = double(img);
-    prewitt_x = [-1,-1,-1;0,0,0;1,1,1];
+    prewitt_x = [-1,-1,-1;0,0,0;1,1,1];%Prewitt算子
     prewitt_y = [-1,0,1;-1,0,1;-1,0,1];
-    sobel_x = [-1,-2,-1;0,0,0;1,2,1];
+    sobel_x = [-1,-2,-1;0,0,0;1,2,1];%Sobel算子
     sobel_y = [-1,0,1;-2,0,2;-1,0,1];
     if model == 0
         operator_x = prewitt_x;

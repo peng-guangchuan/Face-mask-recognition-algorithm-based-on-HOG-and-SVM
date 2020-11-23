@@ -20,14 +20,16 @@ function ResultDescriptor = HOGdescriptor(img,imgSize,cellSize,blockSize)%,cell_
     [r,c] = size(gradient_magnitude);
     cells = zeros(cellNum,cellNum,orient);%前两个为cell的位置，第三个为cell内的角度值统计
     blocks = zeros(blockNum,blockNum,blockSize*blockSize*orient);%前两个为block的位置，第三个为cell内的角度值统计
+    
+    %统计梯度直方图，得到每个cell中主要梯度的方向，即图像像素变化最大的方向
     indexi = 1;
     for i = 1:cellSize:r
         indexj = 1;
         for j = 1:cellSize:c
-            %遍历当前cell内的角度值
+            %遍历当前cell内的角度值，
             for p = 0:cellSize-1
                 for q = 0:cellSize-1
-                    for angIndex = 1:orient
+                    for angIndex = 1:orient%寻找不同角度区间的梯度角度
                         if gradient_angle(i+p,j+q)<(jiao*(angIndex)-90)
                             cells(indexi,indexj,angIndex) = cells(indexi,indexj,angIndex) + gradient_magnitude(i+p,j+q);
                             break;
@@ -46,16 +48,25 @@ function ResultDescriptor = HOGdescriptor(img,imgSize,cellSize,blockSize)%,cell_
         for j = 1:yblockNum
             xcell = blockSize*i-1;
             ycell = blockSize*j-1;
+            %叠加属于当前block的所有cell的梯度方向直方图，得到一个2*2*9=36维的数据
             temp = cat(2,cells(xcell,ycell,:),cells(xcell,ycell+1,:),cells(xcell+1,ycell,:),cells(xcell+1,ycell+1,:));
             temp = temp(:)';
             blocks(i,j,:) = temp/(abs(max(temp))+eps);%归一化
-%             blocks(i,j,1:9) = cells(xcell,ycell,:);
-%             blocks(i,j,10:18) = cells(xcell,ycell+1,:);
-%             blocks(i,j,19:27) = cells(xcell+1,ycell,:);
-%             blocks(i,j,28:36) = cells(xcell+1,ycell+1,:);
-%             blocks(i,j,:) = blocks(i,j,:)./(abs(max(blocks(i,j,:)))+eps);
             ResultDescriptor((blockindex-1)*wblockNum+1:blockindex*wblockNum) = blocks(i,j,:);
             blockindex= blockindex+1;
         end
     end
 end
+
+% 比较三种线性插值的效果
+% img = imread('./正样本/0_0_1.jpg');
+% img_gray = rgb2gray(img);
+% img_gray = imresize(img_gray,[128,128],'nearest');%使用双线性插值算法将图片缩减到指定大小
+% subplot(131);
+% imshow(img_gray);
+% img_gray = imresize(img_gray,[128,128],'bilinear');%使用双线性插值算法将图片缩减到指定大小
+% subplot(132);
+% imshow(img_gray);
+% img_gray = imresize(img_gray,[128,128],'bicubic');%使用双线性插值算法将图片缩减到指定大小
+% subplot(133);
+% imshow(img_gray);
