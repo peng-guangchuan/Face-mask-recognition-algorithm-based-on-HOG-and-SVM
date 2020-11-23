@@ -26,6 +26,7 @@ function [gradient_magnitude,gradient_angle] = computeGradient(img,model)
             gy(i,j) = sum(sum(img(i-1:i+1,j-1:j+1).*operator_y));
         end
     end
+    
     %对第一列和最后一列的梯度值进行特殊运算
     for i = 2:r-1
         gx(i,1) = 0;
@@ -34,10 +35,10 @@ function [gradient_magnitude,gradient_angle] = computeGradient(img,model)
         gy(i,c) = img(i+1,c)-img(i-1,c);
     end
     for i = 2:c-1
-        gx(1,i) = 0;
-        gx(r,i) = 0;
-        gy(1,i) = img(1,i+1)-img(1,i-1);
-        gy(r,i) = img(r,i+1)-img(r,i-1);
+        gy(1,i) = 0;
+        gy(r,i) = 0;
+        gx(1,i) = img(1,i+1)-img(1,i-1);
+        gx(r,i) = img(r,i+1)-img(r,i-1);
     end
     gradient_magnitude = abs(gx)+abs(gy);
     gradient_angle = atan(gy./(gx+eps));
