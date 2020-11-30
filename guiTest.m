@@ -110,8 +110,8 @@ function pushbutton4_Callback(hObject, eventdata, handles)
 imgTest=getimage(handles.axes1);
 axes(handles.axes2);
 imshow(imgTest);
-model = evalin('base', 'bigmodel');
-model = model.model;
+model = evalin('base', 'model');
+%model = model.model;
 
 if (get(handles.radiobutton1,'value') == 0)
     [face_num , masked] = dection(imgTest,model);

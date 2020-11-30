@@ -1,6 +1,6 @@
 function trainingImg()
-    positive_path = 'D:/计算机学习/大三上/数字图像处理_庄家骏/课程设计/数据集/正样本2/';
-    negative_path = 'D:/计算机学习/大三上/数字图像处理_庄家骏/课程设计/数据集/负样本2/';
+    positive_path = 'C:/Users/川川/Desktop/数字图像处理课程设计/数据集/svm训练负样本集/';
+    negative_path = 'C:/Users/川川/Desktop/数字图像处理课程设计/数据集/svm训练正样本集/';
     posExamples=dir(positive_path);%读取文件夹里的所有.jpg图片
     [posSampleNums , ~]=size(posExamples);
     negExamples=dir(negative_path);%读取文件夹里的所有.jpg图片
@@ -25,7 +25,7 @@ function trainingImg()
         trainData(i+posSampleNums,:)=result;    
     end
     %SVM训练
-    model = fitsvm(trainLabel,trainData);%线性分割
-    save('lower2.mat','model');
+    model = fitcsvm(trainData,trainLabel);%线性分割
+    save('fullmodel.mat','model');
 end
 
