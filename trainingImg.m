@@ -5,12 +5,14 @@ function trainingImg()
     [posSampleNums , ~]=size(posExamples);
     negExamples=dir(negative_path);%读取文件夹里的所有.jpg图片
     [negSampleNums , ~]=size(negExamples);
-%     negSampleNums=300;
-%     PosSampleNums=90;
+     negSampleNums=300;
+     posSampleNums=90;
     trainData=zeros(posSampleNums+negSampleNums,9216);%用于保存训练数据的矩阵，其中列数即特征向量维数，改变cell和block以及图像的统一大小时需要改变
     trainLabel=zeros(posSampleNums+negSampleNums,1);
     trainLabel(1:posSampleNums)=ones(1,posSampleNums);%1是正例，0是负例
     for i=3:posSampleNums
+        'pos'
+        i
         imgName=posExamples(i).name;
         ImgPath=strcat(positive_path,imgName); 
         current=imread(ImgPath);%读取图片
@@ -18,6 +20,8 @@ function trainingImg()
         trainData(i,:)=result;
     end
     for i=3:negSampleNums
+        'neg'
+        i
         imgName=negExamples(i).name;
         ImgPath=strcat(negative_path,imgName); 
         current=imread(ImgPath);%读取图片
@@ -26,6 +30,6 @@ function trainingImg()
     end
     %SVM训练
     model = fitcsvm(trainData,trainLabel);%线性分割
-    save('fullmodel.mat','model');
+    save('lower_fitcsvm.mat','model');
 end
 

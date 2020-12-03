@@ -1,14 +1,17 @@
-function ResultDescriptor = HOGdescriptor(img,imgSize,cellSize,blockSize)%,cell_x,cell_y,bolck_x,bolok_y)
+function ResultDescriptor = HOGdescriptor(gradient_magnitude,gradient_angle,cellSize,blockSize)%,cell_x,cell_y,bolck_x,bolok_y)
 % 获取图像的HOG方向直方图
 %img：输入图像的uint8矩阵
 %imgSize: 一个长度为2的一维矩阵，imgSize(1)表示统一大小的图片的行数，imgSize(1)表示统一大小的图片的列数
 %cellSize: cell区域的大小，cell区域为size*size的矩阵区域
 %blockSize: block区域的大小，block区域为size*size的矩阵区域
-    img_gray = rgb2gray(img);
-    r=imgSize(1);
-    c=imgSize(2);
-    img_gray = imresize(img_gray,[r,c],'bilinear');%使用双线性插值算法将图片缩减到指定大小
-    [gradient_magnitude,gradient_angle] = computeGradient(img_gray,1);%获取图像每个点的梯度幅值以及角度
+
+%%图像处理
+%     img_gray = rgb2gray(img);
+%     r=imgSize(1);
+%     c=imgSize(2);
+%     img_gray = imresize(img_gray,[r,c],'bilinear');%使用双线性插值算法将图片缩减到指定大小
+    
+%     [gradient_magnitude,gradient_angle] = computeGradient(img_gray,1);%获取图像每个点的梯度幅值以及角度
     
     %初始化cell和block的相关数据，由于输入图片会变换成128*128的方形，且cell和block的形状均为方形，因此仅通过r和大小可以计算出个数
     cellNum = r/cellSize();%cell个数
