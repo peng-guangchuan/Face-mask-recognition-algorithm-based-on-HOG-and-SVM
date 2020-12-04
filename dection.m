@@ -21,16 +21,11 @@ if img_num>0
         face_num = length(bbox(:,1));%检测到的人脸数量
         for k = 1:face_num
             faceout1=imcrop(I,bbox(k,:));%根据bbox中的数据截取人脸头像
-            faceout2=imresize(faceout1,[128,128]);%扩大图片尺寸
+            faceout2=imresize(faceout1,[128,128]);%缩放图片尺寸
             %图像预处理
-            faceout2 = rgb2gray(faceout2);
-            
-            
             %Gamma归一化，输出为灰度图像，g为归一化系数
-            faceout2 = gamma(faceout2,g);
-    
-            
-            
+            faceout2 = gamma1(faceout2,2);
+
             [gradient_magnitude,gradient_angle] = computeGradient(faceout2,1);%获取图像每个点的梯度幅值以及角度
             resultHog = HOGdescriptor(gradient_magnitude,gradient_angle,4,2);
             
