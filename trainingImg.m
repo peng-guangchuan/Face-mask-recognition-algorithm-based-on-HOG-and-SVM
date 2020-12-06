@@ -7,7 +7,7 @@ function trainingImg()
     [negSampleNums , ~]=size(negExamples);
      negSampleNums=300;
      posSampleNums=90;
-    trainData=zeros(posSampleNums+negSampleNums,9216);%用于保存训练数据的矩阵，其中列数即特征向量维数，改变cell和block以及图像的统一大小时需要改变
+    trainData=zeros(posSampleNums+negSampleNums,34596);%用于保存训练数据的矩阵，其中列数即特征向量维数，改变cell和block以及图像的统一大小时需要改变
     trainLabel=zeros(posSampleNums+negSampleNums,1);
     trainLabel(1:posSampleNums)=ones(1,posSampleNums);%1是正例，0是负例
     for i=3:posSampleNums
