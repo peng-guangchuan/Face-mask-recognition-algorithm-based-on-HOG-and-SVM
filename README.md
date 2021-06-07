@@ -3,35 +3,33 @@
 #### 介绍
 基于HOG和SVM的人脸口罩识别算法
 
-#### 软件架构
-软件架构说明
+#### 文件架构
+文件架构说明：
+HOGdescriptor.m ： 获取图像的HOG方向直方图
+computeGradient.m : 计算传入图像每个像素点在x，y轴的梯度
 
+drawRectangleImage.m ：在图像上绘制方形框图
+gamma1.m : gamma校正算法
 
-#### 安装教程
+dection.m ：预测算法运行入口
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+guiTest.m : MatlabGUI界面生成
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  在进行预测之前需要先对样本进行训练，使用trainImg.m中的函数，修改正负样本文件夹路径
+2.  训练完毕后matlab会得到一个svm分类器
+3.  修改dection.m中的函数，修改需要进行预测的图片路径以及预测结果路径，将svm分类器传入该方法执行
+
+> 如果需要训练集可以联系我邮箱xiyeyee@163.com
 
 #### 参与贡献
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+<a href="https://gitee.com/xiyeye/">Iner</a>
+
+<a href="https://gitee.com/peng_guangchuan">阿川</a>
 
 
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+#### 特殊说明
+1.  由于个人原因，此算法的准确率不高，对于一些较为特殊的人像可能无法识别，所以仅供学习使用
+2.  所使用的训练集样本存在瑕疵，可以自行根据算法运行结果调整训练集，以优化算法识别率

@@ -1,45 +1,45 @@
 function [face_num , masked] = dection(model)
 faceDetector = vision.CascadeObjectDetector();
 faceDetector.MergeThreshold=7;
-file_path='D:/¼ÆËã»úÑ§Ï°/´óÈıÉÏ/Êı×ÖÍ¼Ïñ´¦Àí_×¯¼Ò¿¥/¿Î³ÌÉè¼Æ/Êı¾İ¼¯/²âÊÔ¼¯2/';
-% file_path='C:/Users/´¨´¨/Desktop/Êı×ÖÍ¼Ïñ´¦Àí¿Î³ÌÉè¼Æ/Êı¾İ¼¯/²âÊÔÊı¾İ¼¯/';
+file_path='D:/è®¡ç®—æœºå­¦ä¹ /å¤§ä¸‰ä¸Š/æ•°å­—å›¾åƒå¤„ç†/è¯¾ç¨‹è®¾è®¡/æ•°æ®é›†/æµ‹è¯•é›†2/';
+% file_path='C:/Users/å·å·/Desktop/æ•°å­—å›¾åƒå¤„ç†è¯¾ç¨‹è®¾è®¡/æ•°æ®é›†/æµ‹è¯•æ•°æ®é›†/';
 
-save_path='D:/¼ÆËã»úÑ§Ï°/´óÈıÉÏ/Êı×ÖÍ¼Ïñ´¦Àí_×¯¼Ò¿¥/¿Î³ÌÉè¼Æ/Êı¾İ¼¯/½á¹û/';
+save_path='D:/è®¡ç®—æœºå­¦ä¹ /å¤§ä¸‰ä¸Š/æ•°å­—å›¾åƒå¤„ç†/è¯¾ç¨‹è®¾è®¡/æ•°æ®é›†/ç»“æœ/';
 path_list=dir(strcat(file_path,'*.jpg'));
 img_num=length(path_list);
 label = zeros();
 
 result = 1;
-masked = 0;%´ø¿ÚÕÖÈËÁ³ÊıÁ¿
+masked = 0;%å¸¦å£ç½©äººè„¸æ•°é‡
 unmasked = 0;
 if img_num>0
     for j=1:img_num
         image_name=path_list(j).name;
         I=imread(strcat(file_path,image_name));
-        bbox=step(faceDetector,I);%bboxµÄ²ÎÊı·Ö²¼±íÊ¾[x y width height]£¬stepº¯ÊıÊ¹ÓÃfaceDetectorÌØÕ÷¶àÍ¼ÏñI½øĞĞ¶à³ß¶ÈµÄ¶ÔÏó¼ì²â
-        %faceOut = insertObjectAnnotation(I,'rectangle',bbox,'face'); %¸ù¾İbboxÊı¾İ¶Ô¼ì²âµ½µÄÈËÁ³»­¿ò£¬
-        face_num = length(bbox(:,1));%¼ì²âµ½µÄÈËÁ³ÊıÁ¿
+        bbox=step(faceDetector,I);%bboxçš„å‚æ•°åˆ†å¸ƒè¡¨ç¤º[x y width height]ï¼Œstepå‡½æ•°ä½¿ç”¨faceDetectorç‰¹å¾å¤šå›¾åƒIè¿›è¡Œå¤šå°ºåº¦çš„å¯¹è±¡æ£€æµ‹
+        %faceOut = insertObjectAnnotation(I,'rectangle',bbox,'face'); %æ ¹æ®bboxæ•°æ®å¯¹æ£€æµ‹åˆ°çš„äººè„¸ç”»æ¡†ï¼Œ
+        face_num = length(bbox(:,1));%æ£€æµ‹åˆ°çš„äººè„¸æ•°é‡
         for k = 1:face_num
-            faceout1=imcrop(I,bbox(k,:));%¸ù¾İbboxÖĞµÄÊı¾İ½ØÈ¡ÈËÁ³Í·Ïñ
-            faceout2=imresize(faceout1,[128,128]);%Ëõ·ÅÍ¼Æ¬³ß´ç
-            %Í¼ÏñÔ¤´¦Àí
-            %Gamma¹éÒ»»¯£¬Êä³öÎª»Ò¶ÈÍ¼Ïñ£¬gÎª¹éÒ»»¯ÏµÊı
+            faceout1=imcrop(I,bbox(k,:));%æ ¹æ®bboxä¸­çš„æ•°æ®æˆªå–äººè„¸å¤´åƒ
+            faceout2=imresize(faceout1,[128,128]);%ç¼©æ”¾å›¾ç‰‡å°ºå¯¸
+            %å›¾åƒé¢„å¤„ç†
+            %Gammaå½’ä¸€åŒ–ï¼Œè¾“å‡ºä¸ºç°åº¦å›¾åƒï¼Œgä¸ºå½’ä¸€åŒ–ç³»æ•°
             faceout2 = gamma1(faceout2,2);
 
-            [gradient_magnitude,gradient_angle] = computeGradient(faceout2,1);%»ñÈ¡Í¼ÏñÃ¿¸öµãµÄÌİ¶È·ùÖµÒÔ¼°½Ç¶È
+            [gradient_magnitude,gradient_angle] = computeGradient(faceout2,1);%è·å–å›¾åƒæ¯ä¸ªç‚¹çš„æ¢¯åº¦å¹…å€¼ä»¥åŠè§’åº¦
             resultHog = HOGdescriptor(gradient_magnitude,gradient_angle,4,2);
             
-            % Ê¹ÓÃlibsvmÔ¤²â²¢Êä³öÔ¤²â¸ÅÂÊµÄ·½·¨ [labelpre,~,~] = svmpredict(1,resultHog,model);
+            % ä½¿ç”¨libsvmé¢„æµ‹å¹¶è¾“å‡ºé¢„æµ‹æ¦‚ç‡çš„æ–¹æ³• [labelpre,~,~] = svmpredict(1,resultHog,model);
             
-            labelpre = predict(model,resultHog);%¸ù¾İmodel·ÖÀàÆ÷¶Ô´¦ÀíºóµÄÍ¼ÏñÊı¾İ½øĞĞÔ¤²â·ÖÀà£¬Ê¹ÓÃÄ¬ÈÏ²½³¤
+            labelpre = predict(model,resultHog);%æ ¹æ®modelåˆ†ç±»å™¨å¯¹å¤„ç†åçš„å›¾åƒæ•°æ®è¿›è¡Œé¢„æµ‹åˆ†ç±»ï¼Œä½¿ç”¨é»˜è®¤æ­¥é•¿
             %label
-            if labelpre == 1 %1±íÊ¾¸ÃÍ¼Æ¬´øÁË¿ÚÕÖ
+            if labelpre == 1 %1è¡¨ç¤ºè¯¥å›¾ç‰‡å¸¦äº†å£ç½©
                 masked = masked + 1;
             else
                 unmasked = unmasked + 1;
             end
-            label(result)=labelpre; %´æ´¢½á¹û¾ØÕó
-            imwrite(faceout2,strcat(save_path,strcat(num2str(result),'.tif'))); % ½«½ØÈ¡µ½µÄÈËÁ³Í¼Æ¬±£´æ±¾µØ
+            label(result)=labelpre; %å­˜å‚¨ç»“æœçŸ©é˜µ
+            imwrite(faceout2,strcat(save_path,strcat(num2str(result),'.tif'))); % å°†æˆªå–åˆ°çš„äººè„¸å›¾ç‰‡ä¿å­˜æœ¬åœ°
             result = result+1;
         end
     end

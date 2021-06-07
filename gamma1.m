@@ -9,6 +9,4 @@ imshow(faceout2);
 subplot(122);
 imshow(res);
 
-
-
 end
