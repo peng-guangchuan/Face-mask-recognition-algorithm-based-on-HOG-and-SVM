@@ -21,7 +21,7 @@ guiTest.m : MatlabGUI界面生成
 2.  训练完毕后matlab会得到一个svm分类器
 3.  修改dection.m中的函数，修改需要进行预测的图片路径以及预测结果路径，将svm分类器传入该方法执行
 
-> 本项目绝大部分训练集来自：https://github.com/X-zhangyang/Real-World-Masked-Face-Dataset，感谢开源者的提供
+> 本项目绝大部分训练集来自：https://github.com/X-zhangyang/Real-World-Masked-Face-Dataset , 感谢开源者的提供
 
 #### 参与贡献
 
